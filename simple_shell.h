@@ -1,17 +1,20 @@
 #ifndef SIMPLE_SHELL_H
 #define SIMPLE_SHELL_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <string.h> /* Include for strcspn */
-#include <sys/wait.h> /* Include for waitpid */
+#include <string.h>
+#include <sys/wait.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+
+
 /* Function prototypes */
 void prompt(void);
 void execute_command(char *input);
-char **parse_input(char *input); /* New function prototype */
-char *find_command(char *command); /* Function to find command in PATH */
+char **parse_input(char *input);
+char *find_command(char *command);
 
 #endif /* SIMPLE_SHELL_H */
 

@@ -1,36 +1,50 @@
 #include "shell.h"
-
-char **split_string(char *str) {
-char **result = malloc(64 * sizeof(char*));
+/**
+ * split_string - Split a string into an array of arguments.
+ * @str: String to be split.
+ * Return: Array of arguments.
+ */
+char **split_string(char *str)
+{
+char **result = malloc(64 * sizeof(char *));
 int i = 0;
 char *token = strtok(str, " \n");
-while (token != NULL) {
+while (token != NULL)
+{
 result[i++] = token;
 token = strtok(NULL, " \n");
 }
 result[i] = NULL;
-return result;
+return (result);
 }
-
-void print_prompt() {
+/**
+ * print_prompt - Print the shell prompt.
+ */
+void print_prompt(void)
+{
 printf("$ ");
 }
-
-int main(void) {
+/**
+ * main - Main function to run the simple shell.
+ * Return: 0 on success.
+ */
+int main(void)
+{
 char *input = NULL;
 size_t len = 0;
-char **args; /* Declare args at the beginning */
-while (1) {
-print_prompt(); /* Print the shell prompt */
-getline(&input, &len, stdin); /* Get input from user */
-/* Split input into arguments */
+char **args;
+while (1)
+{
+print_prompt();
+getline(&input, &len, stdin);
 args = split_string(input);
-if (args[0] != NULL) {
-execute_command(args); /* Execute the command */
+if (args[0] != NULL)
+{
+execute_command(args);
 }
-free(args); /* Free allocated memory for arguments */
+free(args);
 }
-free(input); /* Free allocated memory for input */
-return 0;
+free(input);
+return (0);
 }
 

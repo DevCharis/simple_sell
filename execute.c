@@ -1,34 +1,43 @@
-
 #include "shell.h"
 /**
- * execute_command - Execute a command using execve
- * @command: The command to execute
+ * check_file_exists - Check if a file exists.
+ * @path: Path to the file.
+ * Return: 1 if file exists, 0 otherwise.
  */
-void execute_command(char **args) {
-pid_t child_pid;
+int check_file_exists(char *path)
+{
+return (access(path, F_OK) == (0));
+}
+/**
+ * execute_command - Execute a command with arguments.
+ * @args: Command arguments.
+ * Return: 0 on success, -1 on failure.
+ */
+int execute_command(char **args)
+{
+pid_t pid;
 int status;
-
-child_pid = fork();
-if (child_pid == -1) {
-perror("Error:");
-} else if (child_pid == 0) {
-/*Child process*/
-if (execvp(args[0], args) == -1) {
-perror("Error:");
+char *command = args[0];
+pid = fork();
+if (pid == 0)
+{
+if (execvp(command, args) == -1)
+{
+perror("Error executing command");
 }
-exit(EXIT_FAILURE); /* Exit child after execvp */
-} else {
-/* Parent process*/
-wait(&status); /* Wait for child to exit*/
+exit(EXIT_FAILURE);
 }
+else if (pid < 0)
+{
+perror("Fork failed");
+return (-1);
 }
-
-void check_file_exists(char *filename) {
-struct stat st;
-if (stat(filename, &st) == 0) {
-printf("%s: FOUND\n", filename);
-} else {
-printf("%s: NOT FOUND\n", filename);
+else
+{
+do {
+waitpid(pid, &status, WUNTRACED);
+} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 }
+return (0);
 }
 

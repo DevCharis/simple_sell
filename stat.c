@@ -2,8 +2,11 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+
 /**
- * main - stat example
+ * main - stat example, displays information
+ * @ac: The number of arguments passed to the program
+ * @av: An array of strings representing the arguments passed to the program
  * Return: Always 0.
  */
 int main(int ac, char **av)
